@@ -61,7 +61,7 @@ Due to size constraints (2GB+), the EMIT hyperspectral scene is **not** included
 * Source: [NASA EarthData Search](https://search.earthdata.nasa.gov/) or [EMIT Data Portal](https://earth.jpl.nasa.gov/emit/data/data-portal/).
 
 
-2. **Place the file:**
+2. Place the file:
 Move the `.nc` file into the `data/` folder of this project. The path should look like this:
 `EMIT-Lake-Salda-Analysis/data/EMIT_L2A_RFL_001_20240623T082158_2417506_019.nc`
 
@@ -75,7 +75,7 @@ python src/01_Spectral_Audit_SVM.py
 ```
 
 
-* **Step 2: Full Scene Mapping**
+* Step 2: Full Scene Mapping
 Applies the trained model to the EMIT scene and generates the Mineral Map.
 ```bash
 python src/02_Scene_Mapping.py
@@ -92,18 +92,18 @@ python src/02_Scene_Mapping.py
 
 Imaging spectroscopy has become a workhorse for mineral mapping because diagnostic absorption features in the shortwave infrared (SWIR, ~2.0–2.5 µm) can be linked to specific molecular bonds. In ultramafic systems, distinguishing Mg-bearing carbonates from Mg-rich phyllosilicates (e.g., serpentine) is critical.
 
-Lake Salda (SW Turkey) serves as a key test case because it combines ultramafic source lithologies with shoreline carbonate precipitates—a direct analog for Jezero Crater on Mars. The challenge lies in the **2.30–2.34 µm region**, where band centers for hydromagnesite (~2.31 µm) and serpentine (~2.32 µm) differ by only ~10 nm. Standard methods like Spectral Angle Mapper (SAM) often fail here due to sensitivity to small spectral shifts and noise.
+Lake Salda (SW Turkey) serves as a key test case because it combines ultramafic source lithologies with shoreline carbonate precipitates—a direct analog for Jezero Crater on Mars. The challenge lies in the 2.30–2.34 µm region, where band centers for hydromagnesite (~2.31 µm) and serpentine (~2.32 µm) differ by only ~10 nm. Standard methods like Spectral Angle Mapper (SAM) often fail here due to sensitivity to small spectral shifts and noise.
 
 ### 2. Methodology
 
-My approach prioritizes **robust classification** over theoretical linear unmixing. Given that intimate mixtures at the shoreline involve non-linear scattering that violates simple additivity, I employed a **Support Vector Machine (SVM)** with a Radial Basis Function (RBF) kernel applied to a PCA-reduced feature space.
+My approach prioritizes robust classification over theoretical linear unmixing. Given that intimate mixtures at the shoreline involve non-linear scattering that violates simple additivity, I employed a **Support Vector Machine (SVM)** with a Radial Basis Function (RBF) kernel applied to a PCA-reduced feature space.
 
-**Workflow Highlights:**
+Workflow Highlights:
 
-1. **Continuum Removal:** Applied to the 2.10–2.45 µm window to isolate absorption geometry.
-2. **Hybrid Library:** Constructed from scene ROIs and USGS laboratory endmembers.
-3. **Data Augmentation:** Gaussian noise injection (σ = 0.002) during training to force the model to learn stable features rather than overfitting noise.
-4. **Auditing:** Used XGBoost to verify that the model relies on physical absorption bands (2.30/2.33 µm) rather than artifacts.
+1. Continuum Removal: Applied to the 2.10–2.45 µm window to isolate absorption geometry.
+2. Hybrid Library: Constructed from scene ROIs and USGS laboratory endmembers.
+3. Data Augmentation: Gaussian noise injection (σ = 0.002) during training to force the model to learn stable features rather than overfitting noise.
+4. Auditing: Used XGBoost to verify that the model relies on physical absorption bands (2.30/2.33 µm) rather than artifacts.
 
 ### 3. Results and Discussion
 
@@ -117,4 +117,4 @@ I tested whether Mg-carbonate shoreline materials can be reliably separated from
 
 ---
 
-*For code inquiries, please open an issue in this repository.*
+For code inquiries, please open an issue in this repository.
