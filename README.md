@@ -6,22 +6,22 @@ Date: January 2026
 Context: Technical Report for Scheller Lab (Stanford University) - Take Home Problem
 
 ## 📌 Executive Summary
-This project tests whether NASA’s **EMIT** (Earth Surface Mineral Dust Source Investigation) imaging spectroscopy can reliably distinguish **Mg-carbonate shoreline deposits** from **serpentinized ultramafics** at Lake Salda (Turkey).
+This project tests whether NASA’s EMIT (Earth Surface Mineral Dust Source Investigation) imaging spectroscopy can reliably distinguish Mg-carbonate shoreline deposits from serpentinized ultramafics at Lake Salda (Turkey).
 
-The analysis focuses on the spectrally congested **2.30–2.34 µm region**, where carbonate and serpentine absorption features overlap significantly. By utilizing a **non-linear Support Vector Machine (SVM)** on PCA-reduced data and auditing the model with **Gradient Boosting**, this workflow successfully maps the mineral gradients without relying on linear unmixing assumptions that fail in intimate mixture scenarios.
+The analysis focuses on the spectrally congested 2.30–2.34 µm region, where carbonate and serpentine absorption features overlap significantly. By utilizing a non-linear Support Vector Machine (SVM) on PCA-reduced data and auditing the model with Gradient Boosting, this workflow successfully maps the mineral gradients without relying on linear unmixing assumptions that fail in intimate mixture scenarios.
 
 ---
 
 ## 📊 Key Results
 
 ### 1. Final Mineralogical Map
-The model successfully confined the **Stromatolitic Complex (Hydromagnesite)** to the shoreline interface, distinguishing it from the surrounding **Ophiolitic Basement (Serpentine)**.
+The model successfully confined the Stromatolitic Complex (Hydromagnesite) to the shoreline interface, distinguishing it from the surrounding Ophiolitic Basement (Serpentine).
 
 ![Mineral Map](figures/Figure4_Mineral_Map.png)
-*Figure 1: Final mineralogical map derived from EMIT imagery (2.10–2.45 µm).*
+Figure 1: Final mineralogical map derived from EMIT imagery (2.10–2.45 µm).
 
 ### 2. Model Audit (Feature Importance)
-To ensure the model was not overfitting to broadband albedo, a Gradient Boosting auditor confirmed that decision power is driven by the diagnostic absorption minima at **2.30 µm** (Carbonates) and **2.33 µm** (Serpentine).
+To ensure the model was not overfitting to broadband albedo, a Gradient Boosting auditor confirmed that decision power is driven by the diagnostic absorption minima at 2.30 µm (Carbonates) and 2.33 µm (Serpentine).
 
 ![Feature Audit](figures/Figure5_Feature_Audit.png)
 Figure 2: Feature importance scores confirming the physical validity of the classification model.
@@ -53,7 +53,7 @@ pip install -r requirements.txt
 
 ### Data Setup
 
-Due to size constraints (2GB+), the EMIT hyperspectral scene is **not** included in this repository.
+Due to size constraints (2GB+), the EMIT hyperspectral scene is not included in this repository.
 
 1. Download the Granule:
 * Dataset: EMIT L2A Surface Reflectance
@@ -67,7 +67,7 @@ Move the `.nc` file into the `data/` folder of this project. The path should loo
 
 ### Running the Analysis
 
-* **Step 1: Spectral Audit & Model Training**
+    Step 1: Spectral Audit & Model Training
 Runs the cross-validation and generates the Feature Importance plot.
 ```bash
 python src/01_Spectral_Audit_SVM.py
@@ -75,7 +75,7 @@ python src/01_Spectral_Audit_SVM.py
 ```
 
 
-* Step 2: Full Scene Mapping
+  Step 2: Full Scene Mapping
 Applies the trained model to the EMIT scene and generates the Mineral Map.
 ```bash
 python src/02_Scene_Mapping.py
@@ -96,7 +96,7 @@ Lake Salda (SW Turkey) serves as a key test case because it combines ultramafic 
 
 ### 2. Methodology
 
-My approach prioritizes robust classification over theoretical linear unmixing. Given that intimate mixtures at the shoreline involve non-linear scattering that violates simple additivity, I employed a **Support Vector Machine (SVM)** with a Radial Basis Function (RBF) kernel applied to a PCA-reduced feature space.
+My approach prioritizes robust classification over theoretical linear unmixing. Given that intimate mixtures at the shoreline involve non-linear scattering that violates simple additivity, I employed a Support Vector Machine (SVM) with a Radial Basis Function (RBF) kernel applied to a PCA-reduced feature space.
 
 Workflow Highlights:
 
@@ -109,7 +109,7 @@ Workflow Highlights:
 
 The resulting map (Figure 1) aligns the serpentine-related unit with ultramafic exposures (32.1% of area) and confines the Stromatolitic Complex to the shoreline (19.2%).
 
-The key implication is not merely that a carbonate-like absorption exists, but that separability remains defensible when absorption centers are tightly spaced. By producing abundance gradients (transition soils) and validating feature importance, this study provides an **auditable separability test** for carbonate–serpentine discrimination under EMIT-like conditions.
+The key implication is not merely that a carbonate-like absorption exists, but that separability remains defensible when absorption centers are tightly spaced. By producing abundance gradients (transition soils) and validating feature importance, this study provides an auditable separability test for carbonate–serpentine discrimination under EMIT-like conditions.
 
 ### 4. Conclusion
 
